@@ -10,12 +10,11 @@ import { HowItWorksSection } from '../sections/HowItWorksSection';
 import { QuizModal } from '../sections/QuizModal';
 
 export function HomePage() {
-  const [quizOpen, setQuizOpen] = useState(true);
+  const [quizOpen, setQuizOpen] = useState(false);
 
   const openQuiz = () => setQuizOpen(true);
   const closeQuiz = () => setQuizOpen(false);
   const finishQuiz = () => {
-    setQuizOpen(false);
     goToPartner();
   };
 
