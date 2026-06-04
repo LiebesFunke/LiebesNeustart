@@ -1,57 +1,66 @@
+import { profileImagePath } from '../config/site';
+
+/** Lokale Fotos: public/profiles/1.jpg … 6.jpg — siehe public/profiles/README.md */
 export const profiles = [
   {
     name: 'Sarah',
     age: 44,
     distance: '3 km entfernt',
     status: 'online',
-    image:
+    image: profileImagePath('1.png'),
+    fallbackImage:
       'https://asjnamhyauaxipcnxfhn.supabase.co/storage/v1/object/public/site-images/hero/ef410c00-ace4-4a0c-ae7a-3a9accbbfad1-1776258730765.png',
-    objectPosition: '50% 18%',
+    objectPosition: '50% 12%',
   },
   {
     name: 'Jessica',
     age: 47,
     distance: '6 km entfernt',
     status: 'online',
-    image:
+    image: profileImagePath('2.png'),
+    fallbackImage:
       'https://asjnamhyauaxipcnxfhn.supabase.co/storage/v1/object/public/site-images/hero/agata-4660aaec.png',
-    objectPosition: '50% 22%',
+    objectPosition: '50% 12%',
   },
   {
     name: 'Ashley',
     age: 45,
     distance: '11 km entfernt',
     status: 'aktiv vor 8 Min.',
-    image:
+    image: profileImagePath('3.png'),
+    fallbackImage:
       'https://asjnamhyauaxipcnxfhn.supabase.co/storage/v1/object/public/site-images/hero/basia-45721769.png',
-    objectPosition: '50% 18%',
+    objectPosition: '50% 15%',
   },
   {
     name: 'Lauren',
     age: 39,
     distance: '5 km entfernt',
     status: 'online',
-    image:
+    image: profileImagePath('4.png'),
+    fallbackImage:
       'https://asjnamhyauaxipcnxfhn.supabase.co/storage/v1/object/public/site-images/hero/1ac08450-4a43-453f-84c8-c20f5df5e50e-1776705351449.png',
-    objectPosition: '50% 28%',
+    objectPosition: '50% 12%',
   },
   {
     name: 'Megan',
     age: 42,
     distance: '18 km entfernt',
     status: 'aktiv vor 22 Min.',
-    image:
+    image: profileImagePath('5.png'),
+    fallbackImage:
       'https://asjnamhyauaxipcnxfhn.supabase.co/storage/v1/object/public/site-images/hero/b33ce0d7-4248-4107-a5e2-82c0e637f459-1776127930442.png',
-    objectPosition: '50% 22%',
+    objectPosition: '50% 12%',
   },
   {
     name: 'Brittany',
     age: 44,
     distance: '10 km entfernt',
     status: 'online',
-    image:
+    image: profileImagePath('6.png'),
+    fallbackImage:
       'https://asjnamhyauaxipcnxfhn.supabase.co/storage/v1/object/public/site-images/hero/873f9e8d-aa82-4c69-8885-d5037e988bb1-1776705362898.png',
-    objectPosition: '50% 20%',
+    objectPosition: '50% 12%',
   },
 ] as const;
 
@@ -126,12 +135,14 @@ export const footerLinks = [
 
 export const ui = {
   logo: {
-    part1: 'Finde dein',
-    part2: 'Dating',
+    part1: 'Zeit für',
+    part2: 'Liebe',
   },
   nav: {
     startFree: 'Kostenlos starten',
     openMenu: 'Menü öffnen',
+    closeMenu: 'Menü schließen',
+    mobileHint: '60-Sekunden-Quiz — danach zu deinen Matches.',
     lang: 'DE',
   },
   hero: {
@@ -163,7 +174,7 @@ export const ui = {
     button: 'Deine Matches ansehen',
   },
   footer: {
-    copyright: '© 2026 Find Your Dating. Alle Rechte vorbehalten.',
+    copyright: '© 2026 Zeit für Liebe. Alle Rechte vorbehalten.',
   },
   quiz: {
     label: 'Partner-Quiz · 60 Sekunden',

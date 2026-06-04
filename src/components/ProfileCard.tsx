@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ui } from '../assets/data';
 
 interface Profile {
@@ -6,6 +7,7 @@ interface Profile {
   distance: string;
   status: string;
   image: string;
+  fallbackImage?: string;
   objectPosition: string;
 }
 
@@ -27,6 +29,8 @@ function CheckBadge() {
 }
 
 export function ProfileCard({ profile, onClick }: ProfileCardProps) {
+  const [src, setSrc] = useState(profile.image);
+
   return (
     <div
       role="button"
@@ -38,12 +42,17 @@ export function ProfileCard({ profile, onClick }: ProfileCardProps) {
     >
       <div className="relative aspect-square rounded-2xl overflow-hidden bg-muted">
         <img
-          src={profile.image}
+          src={src}
           alt={profile.name}
           loading="eager"
           decoding="async"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           style={{ objectPosition: profile.objectPosition }}
+          onError={() => {
+            if (profile.fallbackImage && src !== profile.fallbackImage) {
+              setSrc(profile.fallbackImage);
+            }
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity pointer-events-none" />
       </div>

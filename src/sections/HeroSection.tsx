@@ -21,21 +21,21 @@ export function HeroSection({ onSeeMatches }: HeroSectionProps) {
   return (
     <section className="relative overflow-x-clip">
       <div className="absolute inset-0 bg-gradient-hero pointer-events-none" />
-      <div className="container mx-auto px-4 py-10 md:py-20 relative">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          <div className="text-center lg:text-left">
+      <div className="container mx-auto px-3 sm:px-4 py-8 sm:py-10 md:py-20 relative">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center">
+          <div className="text-center lg:text-left order-1">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/15 border border-accent/30 text-accent-foreground mb-6">
               <Heart className="w-4 h-4 text-primary fill-current" />
               <span className="text-sm font-medium tracking-wide">{ui.hero.badge}</span>
             </div>
 
-            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium leading-[1.05] tracking-tight text-foreground mb-6">
+            <h1 className="font-serif text-[1.75rem] leading-[1.08] xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-foreground mb-5 sm:mb-6">
               {ui.hero.titleBefore}{' '}
               <span className="italic text-gold-gradient">{ui.hero.titleAccent}</span>{' '}
               {ui.hero.titleAfter}
             </h1>
 
-            <p className="text-[17px] md:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed">
+            <p className="text-base sm:text-[17px] md:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-6 sm:mb-8 leading-relaxed px-1 sm:px-0">
               {ui.hero.subtitle}
             </p>
 
@@ -58,8 +58,8 @@ export function HeroSection({ onSeeMatches }: HeroSectionProps) {
             </div>
           </div>
 
-          <div className="relative">
-            <div className="relative bg-card border border-border rounded-3xl p-5 md:p-6 shadow-large">
+          <div className="relative order-2 w-full max-w-md mx-auto lg:max-w-none lg:mx-0">
+            <div className="relative bg-card border border-border rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 md:p-6 shadow-large">
               <div className="flex items-center justify-between mb-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-destructive/10 border border-destructive/30">
                   <span className="relative flex h-2 w-2">
@@ -80,7 +80,7 @@ export function HeroSection({ onSeeMatches }: HeroSectionProps) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 md:gap-3 min-h-[180px]">
+              <div className="grid grid-cols-3 gap-1.5 sm:gap-2 md:gap-3 min-h-0 sm:min-h-[180px]">
                 {profiles.map((profile) => (
                   <ProfileCard key={profile.name} profile={profile} onClick={onSeeMatches} />
                 ))}

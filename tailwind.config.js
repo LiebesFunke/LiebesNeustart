@@ -56,6 +56,9 @@ export default {
         'live-count-pop': 'live-count-pop 2s ease-in-out infinite',
         'fade-in': 'fade-in 0.4s ease-out forwards',
       },
+      screens: {
+        xs: '380px',
+      },
       container: {
         center: true,
         padding: '1rem',

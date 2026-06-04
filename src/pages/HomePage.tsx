@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { goToPartner } from '../lib/partner';
 import { Navbar } from '../components/Navbar';
 import { FadeInSection } from '../components/FadeInSection';
 import { CtaSection } from '../sections/CtaSection';
@@ -13,6 +14,10 @@ export function HomePage() {
 
   const openQuiz = () => setQuizOpen(true);
   const closeQuiz = () => setQuizOpen(false);
+  const finishQuiz = () => {
+    setQuizOpen(false);
+    goToPartner();
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -26,7 +31,7 @@ export function HomePage() {
         <CtaSection onSeeMatches={openQuiz} />
       </main>
       <FooterSection />
-      <QuizModal isOpen={quizOpen} onClose={closeQuiz} />
+      <QuizModal isOpen={quizOpen} onClose={closeQuiz} onComplete={finishQuiz} />
     </div>
   );
 }

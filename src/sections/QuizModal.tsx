@@ -8,9 +8,10 @@ import { cn } from '../lib/utils';
 interface QuizModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onComplete: () => void;
 }
 
-export function QuizModal({ isOpen, onClose }: QuizModalProps) {
+export function QuizModal({ isOpen, onClose, onComplete }: QuizModalProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(0);
 
@@ -37,7 +38,7 @@ export function QuizModal({ isOpen, onClose }: QuizModalProps) {
         setCurrentQuestion((prev) => prev + 1);
         setSelectedOption(0);
       } else {
-        onClose();
+        onComplete();
       }
     }, 300);
   };
@@ -46,7 +47,7 @@ export function QuizModal({ isOpen, onClose }: QuizModalProps) {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-[100] bg-background overflow-y-auto"
+          className="fixed inset-0 z-[100] bg-background overflow-y-auto overscroll-contain pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
           role="dialog"
           aria-modal="true"
           initial={{ opacity: 0 }}
@@ -58,7 +59,7 @@ export function QuizModal({ isOpen, onClose }: QuizModalProps) {
             type="button"
             aria-label={ui.quiz.close}
             onClick={onClose}
-            className="fixed top-3 right-3 z-[101] p-2 rounded-full bg-background/80 backdrop-blur-md border border-border hover:bg-secondary transition-colors"
+            className="fixed top-[max(0.75rem,env(safe-area-inset-top))] right-3 z-[101] p-2.5 rounded-full bg-background/80 backdrop-blur-md border border-border hover:bg-secondary transition-colors touch-manipulation"
           >
             <X className="w-5 h-5 text-foreground" />
           </button>
