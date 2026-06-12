@@ -6,7 +6,7 @@
  *   "ZeitFuerLiebe.github.io" → "/" setzen; bei Projekt-Repo z. B. "zeit-fuer-liebe".
  */
 export const siteConfig = {
-  partnerUrl: '',
+  partnerUrl: 'https://go.cm-trk6.com/aff_f?h=Bjgjxo',
 
   /** User-Site: Repo „ZeitFuerLiebe.github.io“ → URL https://zeitfuerliebe.github.io/ */
   githubPagesRepo: 'ZeitFuerLiebe.github.io',
