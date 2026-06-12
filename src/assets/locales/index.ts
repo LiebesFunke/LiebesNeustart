@@ -36,6 +36,34 @@ export const locales = {
 
 export type LocaleCode = keyof typeof locales;
 
+const DEFAULT_LOCALE: LocaleCode = 'de-DE';
+const GEO_CHECK_KEY = 'geo_lang_checked';
+
+const COUNTRY_TO_LOCALE: Record<string, LocaleCode> = {
+  DE: 'de-DE',
+  AT: 'de-AT',
+  CH: 'de-CH',
+  US: 'en-US',
+  GB: 'en-US',
+  CA: 'en-US',
+  AU: 'en-US',
+  NZ: 'en-US',
+  IE: 'en-US',
+  ZA: 'en-US',
+  FR: 'fr-FR',
+  IT: 'it-IT',
+  ES: 'es-ES',
+  NL: 'nl-NL',
+  PL: 'pl-PL',
+  CZ: 'cs-CZ',
+  SE: 'sv-SE',
+  NO: 'nb-NO',
+  DK: 'da-DK',
+  LV: 'lv-LV',
+  LT: 'lt-LT',
+  IL: 'he-IL',
+};
+
 function isLocaleCode(value: string | null): value is LocaleCode {
   return Boolean(value && value in locales);
 }
@@ -63,6 +91,21 @@ function normalizeLanguage(language: string): LocaleCode | null {
   return null;
 }
 
+function getUrlLocale(): LocaleCode | null {
+  const params = new URLSearchParams(window.location.search);
+  const langFromUrl = params.get('lang');
+  return isLocaleCode(langFromUrl) ? langFromUrl : null;
+}
+
+function getSavedLocale(): LocaleCode | null {
+  try {
+    const savedLang = localStorage.getItem('preferred_lang');
+    return isLocaleCode(savedLang) ? savedLang : null;
+  } catch {
+    return null;
+  }
+}
+
 function getBrowserLocale(): LocaleCode | null {
   const browserLanguages = navigator.languages?.length ? navigator.languages : [navigator.language];
   for (const browserLanguage of browserLanguages) {
@@ -72,27 +115,87 @@ function getBrowserLocale(): LocaleCode | null {
   return null;
 }
 
-export function getLocaleCode(): LocaleCode {
-  if (typeof window === 'undefined') return 'de-DE';
-
-  // 1. Automatic browser language detection is the priority.
-  const browserLocale = getBrowserLocale();
-  if (browserLocale) return browserLocale;
-
-  // 2. Manual choice is used only if automatic detection cannot match a supported language.
-  const params = new URLSearchParams(window.location.search);
-  const langFromUrl = params.get('lang');
-  if (isLocaleCode(langFromUrl)) return langFromUrl;
-
+async function detectRegionLocale(): Promise<LocaleCode | null> {
   try {
-    const savedLang = localStorage.getItem('preferred_lang');
-    if (isLocaleCode(savedLang)) return savedLang;
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => controller.abort(), 1200);
+    const response = await fetch('https://ipapi.co/json/', { signal: controller.signal });
+    window.clearTimeout(timer);
+    if (!response.ok) return null;
+    const data = await response.json();
+    const countryCode = String(data?.country_code || '').toUpperCase();
+    return COUNTRY_TO_LOCALE[countryCode] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function rememberManualChoice(locale: LocaleCode) {
+  try {
+    localStorage.setItem('preferred_lang', locale);
   } catch {
     // ignore localStorage errors
   }
+}
 
-  // 3. Default fallback: German.
-  return 'de-DE';
+function scheduleRegionRefinement(currentLocale: LocaleCode) {
+  if (typeof window === 'undefined') return;
+  if (getUrlLocale()) return;
+
+  try {
+    const alreadyChecked = sessionStorage.getItem(GEO_CHECK_KEY);
+    if (alreadyChecked === '1') return;
+    sessionStorage.setItem(GEO_CHECK_KEY, '1');
+  } catch {
+    // ignore sessionStorage errors
+  }
+
+  detectRegionLocale().then((regionLocale) => {
+    if (!regionLocale || regionLocale === currentLocale) return;
+
+    const browserLocale = getBrowserLocale();
+    const savedLocale = getSavedLocale();
+
+    // If there is a saved manual choice, respect it.
+    if (savedLocale) return;
+
+    // If browser is generic German/English but region is more precise, refine it.
+    const shouldRefine =
+      !browserLocale ||
+      browserLocale === DEFAULT_LOCALE ||
+      (browserLocale === 'en-US' && regionLocale !== 'en-US') ||
+      (browserLocale === 'de-DE' && (regionLocale === 'de-AT' || regionLocale === 'de-CH'));
+
+    if (!shouldRefine) return;
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', regionLocale);
+    window.location.replace(url.toString());
+  });
+}
+
+export function getLocaleCode(): LocaleCode {
+  if (typeof window === 'undefined') return DEFAULT_LOCALE;
+
+  // 1. Manual URL choice has top priority: ?lang=fr-FR
+  const urlLocale = getUrlLocale();
+  if (urlLocale) {
+    rememberManualChoice(urlLocale);
+    return urlLocale;
+  }
+
+  // 2. Saved manual choice from language switcher.
+  const savedLocale = getSavedLocale();
+  if (savedLocale) return savedLocale;
+
+  // 3. Browser language detection.
+  const browserLocale = getBrowserLocale();
+  const initialLocale = browserLocale ?? DEFAULT_LOCALE;
+
+  // 4. Region/IP refinement runs in the background and reloads once if needed.
+  scheduleRegionRefinement(initialLocale);
+
+  return initialLocale;
 }
 
 export function getLocale() {
