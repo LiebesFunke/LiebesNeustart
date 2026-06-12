@@ -7,6 +7,13 @@ import * as nlNL from './nl-NL';
 import * as nbNO from './nb-NO';
 import * as svSE from './sv-SE';
 import * as daDK from './da-DK';
+import * as frFR from './fr-FR';
+import * as itIT from './it-IT';
+import * as esES from './es-ES';
+import * as csCZ from './cs-CZ';
+import * as lvLV from './lv-LV';
+import * as ltLT from './lt-LT';
+import * as heIL from './he-IL';
 
 export const locales = {
   'de-DE': deDE,
@@ -18,6 +25,13 @@ export const locales = {
   'nb-NO': nbNO,
   'sv-SE': svSE,
   'da-DK': daDK,
+  'fr-FR': frFR,
+  'it-IT': itIT,
+  'es-ES': esES,
+  'cs-CZ': csCZ,
+  'lv-LV': lvLV,
+  'lt-LT': ltLT,
+  'he-IL': heIL,
 } as const;
 
 export type LocaleCode = keyof typeof locales;
@@ -33,6 +47,13 @@ function normalizeLanguage(language: string): LocaleCode | null {
   if (lang === 'no' || lang.startsWith('no-') || lang === 'nb' || lang.startsWith('nb-') || lang === 'nn' || lang.startsWith('nn-')) return 'nb-NO';
   if (lang === 'sv' || lang.startsWith('sv-')) return 'sv-SE';
   if (lang === 'da' || lang.startsWith('da-')) return 'da-DK';
+  if (lang === 'fr' || lang.startsWith('fr-')) return 'fr-FR';
+  if (lang === 'it' || lang.startsWith('it-')) return 'it-IT';
+  if (lang === 'es' || lang.startsWith('es-')) return 'es-ES';
+  if (lang === 'cs' || lang.startsWith('cs-')) return 'cs-CZ';
+  if (lang === 'lv' || lang.startsWith('lv-')) return 'lv-LV';
+  if (lang === 'lt' || lang.startsWith('lt-')) return 'lt-LT';
+  if (lang === 'he' || lang.startsWith('he-') || lang === 'iw' || lang.startsWith('iw-')) return 'he-IL';
   if (lang === 'en' || lang.startsWith('en-')) return 'en-US';
 
   return null;
