@@ -1,5 +1,5 @@
 import { useState } from 'react';
-//import { goToPartner } from '../lib/partner';
+import { goToPartner } from '../lib/partner';
 import { Navbar } from '../components/Navbar';
 import { FadeInSection } from '../components/FadeInSection';
 import { CtaSection } from '../sections/CtaSection';
@@ -15,15 +15,9 @@ export function HomePage() {
   const openQuiz = () => setQuizOpen(true);
   const closeQuiz = () => setQuizOpen(false);
   const finishQuiz = () => {
-    // ОРИГИНАЛ (раскомментировать когда нужно вернуть):
-    // goToPartner();
-
-    // СОЦИАЛЬНЫЙ ПРОЕКТ (удалить когда возвращаешь оригинал):
-    closeQuiz();
-    alert('Спасибо, что прошли опрос! 😊');
-  };
-
-  return (
+  goToPartner();
+    };
+return (
     <div className="min-h-screen bg-background">
       <Navbar onStartFree={openQuiz} />
       <main>
