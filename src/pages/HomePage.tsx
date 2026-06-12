@@ -15,7 +15,13 @@ export function HomePage() {
   const openQuiz = () => setQuizOpen(true);
   const closeQuiz = () => setQuizOpen(false);
   const finishQuiz = () => {
-    goToPartner();
+    // ОРИГИНАЛ (раскомментировать когда нужно вернуть):
+  // goToPartner();
+
+  // СОЦИАЛЬНЫЙ ПРОЕКТ (удалить когда возвращаешь оригинал):
+  closeQuiz();
+  alert('Спасибо, что прошли опрос! 😊');
+};
   };
 
   return (
