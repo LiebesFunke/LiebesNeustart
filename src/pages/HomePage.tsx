@@ -22,8 +22,6 @@ export function HomePage() {
   closeQuiz();
   alert('Спасибо, что прошли опрос! 😊');
 };
-  };
-
   return (
     <div className="min-h-screen bg-background">
       <Navbar onStartFree={openQuiz} />
