@@ -36,6 +36,10 @@ export const locales = {
 
 export type LocaleCode = keyof typeof locales;
 
+function isLocaleCode(value: string | null): value is LocaleCode {
+  return Boolean(value && value in locales);
+}
+
 function normalizeLanguage(language: string): LocaleCode | null {
   const lang = language.toLowerCase();
 
@@ -59,19 +63,35 @@ function normalizeLanguage(language: string): LocaleCode | null {
   return null;
 }
 
-export function getLocaleCode(): LocaleCode {
-  if (typeof window === 'undefined') return 'de-DE';
-
-  const params = new URLSearchParams(window.location.search);
-  const langFromUrl = params.get('lang');
-  if (langFromUrl && langFromUrl in locales) return langFromUrl as LocaleCode;
-
+function getBrowserLocale(): LocaleCode | null {
   const browserLanguages = navigator.languages?.length ? navigator.languages : [navigator.language];
   for (const browserLanguage of browserLanguages) {
     const matchedLocale = normalizeLanguage(browserLanguage);
     if (matchedLocale) return matchedLocale;
   }
+  return null;
+}
 
+export function getLocaleCode(): LocaleCode {
+  if (typeof window === 'undefined') return 'de-DE';
+
+  // 1. Automatic browser language detection is the priority.
+  const browserLocale = getBrowserLocale();
+  if (browserLocale) return browserLocale;
+
+  // 2. Manual choice is used only if automatic detection cannot match a supported language.
+  const params = new URLSearchParams(window.location.search);
+  const langFromUrl = params.get('lang');
+  if (isLocaleCode(langFromUrl)) return langFromUrl;
+
+  try {
+    const savedLang = localStorage.getItem('preferred_lang');
+    if (isLocaleCode(savedLang)) return savedLang;
+  } catch {
+    // ignore localStorage errors
+  }
+
+  // 3. Default fallback: German.
   return 'de-DE';
 }
 
