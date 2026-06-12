@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { goToPartner } from '../lib/partner';
+//import { goToPartner } from '../lib/partner';
 import { Navbar } from '../components/Navbar';
 import { FadeInSection } from '../components/FadeInSection';
 import { CtaSection } from '../sections/CtaSection';
