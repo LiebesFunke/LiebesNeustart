@@ -16,12 +16,13 @@ export function HomePage() {
   const closeQuiz = () => setQuizOpen(false);
   const finishQuiz = () => {
     // ОРИГИНАЛ (раскомментировать когда нужно вернуть):
-  // goToPartner();
+    // goToPartner();
 
-  // СОЦИАЛЬНЫЙ ПРОЕКТ (удалить когда возвращаешь оригинал):
-  closeQuiz();
-  alert('Спасибо, что прошли опрос! 😊');
-};
+    // СОЦИАЛЬНЫЙ ПРОЕКТ (удалить когда возвращаешь оригинал):
+    closeQuiz();
+    alert('Спасибо, что прошли опрос! 😊');
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar onStartFree={openQuiz} />
