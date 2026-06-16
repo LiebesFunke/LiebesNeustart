@@ -18,7 +18,7 @@ export const quizQuestions = deDE.quizQuestions;
 export const footerLinks = deDE.footerLinks;
 
 export const ui = {
-  logo: { part1: 'Zeit für', part2: 'Liebe' },
+  logo: { part1: 'Liebes', part2: 'Neustart' },
   nav: { startFree: 'Kostenlos starten', openMenu: 'Menü öffnen', closeMenu: 'Menü schließen', mobileHint: '60-Sekunden-Quiz — danach zu deinen Matches.', lang: 'AT' },
   hero: { badge: 'Exklusive 40+ Community', titleBefore: 'Starte ein', titleAccent: 'neues Kapitel', titleAfter: 'mit jemandem in deiner Nähe.', subtitle: 'Lerne reife, verifizierte Frauen in deiner Umgebung kennen. Kein Druck, keine Spielchen — nur ehrliche Gespräche und echte Verbindungen.', cta: 'Meine Matches ansehen', verifiedProfiles: 'Verifizierte Profile', discreet: '100 % diskret', live: 'LIVE', womenOnline: 'Frauen gerade online', membersOnly: 'Nur für verifizierte Mitglieder', messageHer: 'Jetzt anschreiben' },
   howItWorks: { title: "So funktioniert's" },

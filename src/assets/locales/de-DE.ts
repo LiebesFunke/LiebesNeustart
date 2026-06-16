@@ -39,7 +39,7 @@ export const footerLinks = [
 ] as const;
 
 export const ui = {
-  logo: { part1: 'Zeit für', part2: 'Liebe' },
+  logo: { part1: 'Liebes', part2: 'Neustart' },
   nav: { startFree: 'Kostenlos starten', openMenu: 'Menü öffnen', closeMenu: 'Menü schließen', mobileHint: '60-Sekunden-Quiz — danach zu deinen Matches.', lang: 'DE' },
   hero: { badge: 'Exklusive 40+ Community', titleBefore: 'Beginne ein', titleAccent: 'neues Kapitel', titleAfter: 'deiner Geschichte.', subtitle: 'Lerne reife, verifizierte Frauen in deiner Nähe kennen. Keine Spielchen, kein Druck — nur echte Verbindungen.', cta: 'Deine Matches ansehen', verifiedProfiles: 'Verifizierte Profile', discreet: '100 % diskret', live: 'LIVE', womenOnline: 'Frauen gerade online', membersOnly: 'Nur für verifizierte Mitglieder', messageHer: 'Jetzt anschreiben' },
   howItWorks: { title: "So funktioniert's" },
