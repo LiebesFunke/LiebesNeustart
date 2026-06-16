@@ -121,9 +121,7 @@ async function detectRegionLocale(): Promise<LocaleCode | null> {
 function rememberManualChoice(locale: LocaleCode) {
   try {
     localStorage.setItem('preferred_lang', locale);
-  } catch {
-    // ignore localStorage errors
-  }
+  } catch {}
 }
 
 function scheduleRegionRefinement(currentLocale: LocaleCode) {
@@ -133,20 +131,17 @@ function scheduleRegionRefinement(currentLocale: LocaleCode) {
     const alreadyChecked = sessionStorage.getItem(GEO_CHECK_KEY);
     if (alreadyChecked === '1') return;
     sessionStorage.setItem(GEO_CHECK_KEY, '1');
-  } catch {
-    // ignore sessionStorage errors
-  }
+  } catch {}
   detectRegionLocale().then((regionLocale) => {
     if (!regionLocale || regionLocale === currentLocale) return;
-    const browserLocale = getBrowserLocale();
     const savedLocale = getSavedLocale();
     if (savedLocale) return;
+    const browserLocale = getBrowserLocale();
     const shouldRefine =
       !browserLocale ||
       browserLocale === DEFAULT_LOCALE ||
       (browserLocale === 'en-US' && regionLocale !== 'en-US') ||
-      (browserLocale === 'de-DE' && (regionLocale === 'de-AT' || regionLocale === 'de-CH')) ||
-      (browserLocale === 'ru-RU' && regionLocale === 'ru-RU');
+      (browserLocale === 'de-DE' && (regionLocale === 'de-AT' || regionLocale === 'de-CH'));
     if (!shouldRefine) return;
     const url = new URL(window.location.href);
     url.searchParams.set('lang', regionLocale);
