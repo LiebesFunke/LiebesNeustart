@@ -1,3 +1,7 @@
+src/assets/locales/index.ts
+
+Замени весь файл этим содержимым. В github.dev: открой файл → Ctrl+A → Delete → вставь → Ctrl+S → Source Control → Commit.
+
 import * as deDE from './de-DE';
 import * as enUS from './en-US';
 import * as deCH from './de-CH';
@@ -14,6 +18,7 @@ import * as csCZ from './cs-CZ';
 import * as lvLV from './lv-LV';
 import * as ltLT from './lt-LT';
 import * as heIL from './he-IL';
+import * as ruRU from './ru-RU';
 
 export const locales = {
   'de-DE': deDE,
@@ -32,6 +37,7 @@ export const locales = {
   'lv-LV': lvLV,
   'lt-LT': ltLT,
   'he-IL': heIL,
+  'ru-RU': ruRU,
 } as const;
 
 export type LocaleCode = keyof typeof locales;
@@ -40,28 +46,13 @@ const DEFAULT_LOCALE: LocaleCode = 'de-DE';
 const GEO_CHECK_KEY = 'geo_lang_checked';
 
 const COUNTRY_TO_LOCALE: Record<string, LocaleCode> = {
-  DE: 'de-DE',
-  AT: 'de-AT',
-  CH: 'de-CH',
-  US: 'en-US',
-  GB: 'en-US',
-  CA: 'en-US',
-  AU: 'en-US',
-  NZ: 'en-US',
-  IE: 'en-US',
-  ZA: 'en-US',
-  FR: 'fr-FR',
-  IT: 'it-IT',
-  ES: 'es-ES',
-  NL: 'nl-NL',
-  PL: 'pl-PL',
-  CZ: 'cs-CZ',
-  SE: 'sv-SE',
-  NO: 'nb-NO',
-  DK: 'da-DK',
-  LV: 'lv-LV',
-  LT: 'lt-LT',
-  IL: 'he-IL',
+  DE: 'de-DE', AT: 'de-AT', CH: 'de-CH',
+  US: 'en-US', GB: 'en-US', CA: 'en-US', AU: 'en-US', NZ: 'en-US', IE: 'en-US', ZA: 'en-US',
+  FR: 'fr-FR', IT: 'it-IT', ES: 'es-ES',
+  NL: 'nl-NL', PL: 'pl-PL', CZ: 'cs-CZ',
+  SE: 'sv-SE', NO: 'nb-NO', DK: 'da-DK',
+  LV: 'lv-LV', LT: 'lt-LT', IL: 'he-IL',
+  RU: 'ru-RU', UA: 'ru-RU', BY: 'ru-RU', KZ: 'ru-RU',
 };
 
 function isLocaleCode(value: string | null): value is LocaleCode {
@@ -70,7 +61,6 @@ function isLocaleCode(value: string | null): value is LocaleCode {
 
 function normalizeLanguage(language: string): LocaleCode | null {
   const lang = language.toLowerCase();
-
   if (lang === 'de-ch' || lang.startsWith('de-ch')) return 'de-CH';
   if (lang === 'de-at' || lang.startsWith('de-at')) return 'de-AT';
   if (lang === 'de' || lang.startsWith('de-')) return 'de-DE';
@@ -86,8 +76,8 @@ function normalizeLanguage(language: string): LocaleCode | null {
   if (lang === 'lv' || lang.startsWith('lv-')) return 'lv-LV';
   if (lang === 'lt' || lang.startsWith('lt-')) return 'lt-LT';
   if (lang === 'he' || lang.startsWith('he-') || lang === 'iw' || lang.startsWith('iw-')) return 'he-IL';
+  if (lang === 'ru' || lang.startsWith('ru-')) return 'ru-RU';
   if (lang === 'en' || lang.startsWith('en-')) return 'en-US';
-
   return null;
 }
 
@@ -107,7 +97,9 @@ function getSavedLocale(): LocaleCode | null {
 }
 
 function getBrowserLocale(): LocaleCode | null {
-  const browserLanguages = navigator.languages?.length ? navigator.languages : [navigator.language];
+  const browserLanguages = navigator.languages?.length
+    ? navigator.languages
+    : ;
   for (const browserLanguage of browserLanguages) {
     const matchedLocale = normalizeLanguage(browserLanguage);
     if (matchedLocale) return matchedLocale;
@@ -124,7 +116,7 @@ async function detectRegionLocale(): Promise<LocaleCode | null> {
     if (!response.ok) return null;
     const data = await response.json();
     const countryCode = String(data?.country_code || '').toUpperCase();
-    return COUNTRY_TO_LOCALE[countryCode] ?? null;
+    return COUNTRY_TO_LOCALE ?? null;
   } catch {
     return null;
   }
@@ -141,7 +133,6 @@ function rememberManualChoice(locale: LocaleCode) {
 function scheduleRegionRefinement(currentLocale: LocaleCode) {
   if (typeof window === 'undefined') return;
   if (getUrlLocale()) return;
-
   try {
     const alreadyChecked = sessionStorage.getItem(GEO_CHECK_KEY);
     if (alreadyChecked === '1') return;
@@ -149,25 +140,18 @@ function scheduleRegionRefinement(currentLocale: LocaleCode) {
   } catch {
     // ignore sessionStorage errors
   }
-
   detectRegionLocale().then((regionLocale) => {
     if (!regionLocale || regionLocale === currentLocale) return;
-
     const browserLocale = getBrowserLocale();
     const savedLocale = getSavedLocale();
-
-    // If there is a saved manual choice, respect it.
     if (savedLocale) return;
-
-    // If browser is generic German/English but region is more precise, refine it.
     const shouldRefine =
       !browserLocale ||
       browserLocale === DEFAULT_LOCALE ||
       (browserLocale === 'en-US' && regionLocale !== 'en-US') ||
-      (browserLocale === 'de-DE' && (regionLocale === 'de-AT' || regionLocale === 'de-CH'));
-
+      (browserLocale === 'de-DE' && (regionLocale === 'de-AT' || regionLocale === 'de-CH')) ||
+      (browserLocale === 'ru-RU' && regionLocale === 'ru-RU');
     if (!shouldRefine) return;
-
     const url = new URL(window.location.href);
     url.searchParams.set('lang', regionLocale);
     window.location.replace(url.toString());
@@ -176,28 +160,19 @@ function scheduleRegionRefinement(currentLocale: LocaleCode) {
 
 export function getLocaleCode(): LocaleCode {
   if (typeof window === 'undefined') return DEFAULT_LOCALE;
-
-  // 1. Manual URL choice has top priority: ?lang=fr-FR
   const urlLocale = getUrlLocale();
   if (urlLocale) {
     rememberManualChoice(urlLocale);
     return urlLocale;
   }
-
-  // 2. Saved manual choice from language switcher.
   const savedLocale = getSavedLocale();
   if (savedLocale) return savedLocale;
-
-  // 3. Browser language detection.
   const browserLocale = getBrowserLocale();
   const initialLocale = browserLocale ?? DEFAULT_LOCALE;
-
-  // 4. Region/IP refinement runs in the background and reloads once if needed.
   scheduleRegionRefinement(initialLocale);
-
   return initialLocale;
 }
 
 export function getLocale() {
-  return locales[getLocaleCode()];
+  return locales;
 }
