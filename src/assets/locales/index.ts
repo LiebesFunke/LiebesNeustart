@@ -112,7 +112,7 @@ async function detectRegionLocale(): Promise<LocaleCode | null> {
     if (!response.ok) return null;
     const data = await response.json();
     const countryCode = String(data?.country_code || '').toUpperCase();
-    return COUNTRY_TO_LOCALE ?? null;
+    return COUNTRY_TO_LOCALE[countryCode] ?? null;
   } catch {
     return null;
   }
@@ -165,5 +165,5 @@ export function getLocaleCode(): LocaleCode {
 }
 
 export function getLocale() {
-  return locales;
+  return locales[getLocaleCode()];
 }
