@@ -4,43 +4,43 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        serif: ['Cormorant Garamond', 'ui-serif', 'Georgia', 'serif'],
+        sans:,
+        serif:,
       },
       colors: {
-        background: 'hsl(350 40% 97%)',
-        foreground: 'hsl(350 30% 12%)',
+        background: 'hsl(180 40% 97%)',
+        foreground: 'hsl(180 30% 12%)',
         card: {
           DEFAULT: 'hsl(0 0% 100%)',
-          foreground: 'hsl(350 30% 12%)',
+          foreground: 'hsl(180 30% 12%)',
         },
         primary: {
-          DEFAULT: 'hsl(350 65% 42%)',
-          foreground: 'hsl(350 40% 97%)',
+          DEFAULT: 'hsl(180 75% 32%)',
+          foreground: 'hsl(0 0% 100%)',
         },
         secondary: {
-          DEFAULT: 'hsl(350 30% 92%)',
-          foreground: 'hsl(350 30% 12%)',
+          DEFAULT: 'hsl(180 30% 92%)',
+          foreground: 'hsl(180 30% 12%)',
         },
         muted: {
-          DEFAULT: 'hsl(350 25% 93%)',
-          foreground: 'hsl(350 15% 38%)',
+          DEFAULT: 'hsl(180 25% 93%)',
+          foreground: 'hsl(180 15% 38%)',
         },
         accent: {
-          DEFAULT: 'hsl(10 55% 58%)',
-          foreground: 'hsl(350 30% 12%)',
+          DEFAULT: 'hsl(170 60% 42%)',
+          foreground: 'hsl(0 0% 100%)',
         },
         destructive: {
           DEFAULT: 'hsl(0 72% 50%)',
           foreground: 'hsl(0 0% 100%)',
         },
-        border: 'hsl(350 25% 88%)',
-        ring: 'hsl(350 65% 42%)',
+        border: 'hsl(180 25% 88%)',
+        ring: 'hsl(180 75% 32%)',
       },
       boxShadow: {
-        soft: '0 2px 8px -2px hsl(350 30% 12% / 0.08)',
-        medium: '0 8px 24px -4px hsl(350 30% 12% / 0.12)',
-        large: '0 16px 48px -8px hsl(350 30% 12% / 0.16)',
+        soft: '0 2px 8px -2px hsl(180 30% 12% / 0.08)',
+        medium: '0 8px 24px -4px hsl(180 30% 12% / 0.12)',
+        large: '0 16px 48px -8px hsl(180 30% 12% / 0.16)',
       },
       keyframes: {
         'live-count-pop': {
@@ -68,5 +68,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins:,
 };
