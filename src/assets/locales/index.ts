@@ -93,9 +93,9 @@ function getSavedLocale(): LocaleCode | null {
 }
 
 function getBrowserLocale(): LocaleCode | null {
-  const browserLanguages = navigator.languages?.length
+  const browserLanguages = navigator.languages && navigator.languages.length
     ? navigator.languages
-    : ;
+    : [navigator.language];
   for (const browserLanguage of browserLanguages) {
     const matchedLocale = normalizeLanguage(browserLanguage);
     if (matchedLocale) return matchedLocale;
