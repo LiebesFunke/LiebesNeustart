@@ -136,7 +136,7 @@ function scheduleRegionRefinement(currentLocale: LocaleCode) {
     const savedLocale = getSavedLocale();
     if (savedLocale) return;
     const browserLocale = getBrowserLocale();
-    const ruRegions = ;
+    const ruRegions =['ru-RU'] ;
     const shouldRefine =
       !browserLocale ||
       browserLocale === DEFAULT_LOCALE ||
