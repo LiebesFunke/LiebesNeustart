@@ -1,7 +1,3 @@
-src/assets/locales/index.ts
-
-Замени весь файл этим содержимым. В github.dev: открой файл → Ctrl+A → Delete → вставь → Ctrl+S → Source Control → Commit.
-
 import * as deDE from './de-DE';
 import * as enUS from './en-US';
 import * as deCH from './de-CH';
