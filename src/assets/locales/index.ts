@@ -95,7 +95,7 @@ function getSavedLocale(): LocaleCode | null {
 function getBrowserLocale(): LocaleCode | null {
   const browserLanguages = navigator.languages && navigator.languages.length
     ? navigator.languages
-    : [navigator.language];
+    : ;
   for (const browserLanguage of browserLanguages) {
     const matchedLocale = normalizeLanguage(browserLanguage);
     if (matchedLocale) return matchedLocale;
@@ -112,7 +112,7 @@ async function detectRegionLocale(): Promise<LocaleCode | null> {
     if (!response.ok) return null;
     const data = await response.json();
     const countryCode = String(data?.country_code || '').toUpperCase();
-    return COUNTRY_TO_LOCALE[countryCode] ?? null;
+    return COUNTRY_TO_LOCALE ?? null;
   } catch {
     return null;
   }
@@ -137,11 +137,13 @@ function scheduleRegionRefinement(currentLocale: LocaleCode) {
     const savedLocale = getSavedLocale();
     if (savedLocale) return;
     const browserLocale = getBrowserLocale();
+    const ruRegions = ;
     const shouldRefine =
       !browserLocale ||
       browserLocale === DEFAULT_LOCALE ||
       (browserLocale === 'en-US' && regionLocale !== 'en-US') ||
-      (browserLocale === 'de-DE' && (regionLocale === 'de-AT' || regionLocale === 'de-CH'));
+      (browserLocale === 'de-DE' && (regionLocale === 'de-AT' || regionLocale === 'de-CH')) ||
+      ruRegions.includes(regionLocale);
     if (!shouldRefine) return;
     const url = new URL(window.location.href);
     url.searchParams.set('lang', regionLocale);
@@ -165,5 +167,5 @@ export function getLocaleCode(): LocaleCode {
 }
 
 export function getLocale() {
-  return locales[getLocaleCode()]
+  return locales;
 }
