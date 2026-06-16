@@ -166,5 +166,5 @@ export function getLocaleCode(): LocaleCode {
 }
 
 export function getLocale() {
-  return locales;
+ return locales[getLocaleCode()];
 }
